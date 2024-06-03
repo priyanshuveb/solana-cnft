@@ -1,0 +1,15 @@
+{
+    "name": "Supermodels",
+    "symbol": "SUPER",
+    "description": "A comprehensive list of super models of our time",
+    "image": "https://raw.githubusercontent.com/priyanshuveb/solana-cnft/main/assets/collection.png",
+    "attributes": [],
+    "properties": {
+        "files": [
+            {
+                "type": "image/jpg",
+                "uri": "https://raw.githubusercontent.com/priyanshuveb/solana-cnft/main/assets/collection.png"
+            }
+        ]
+    }
+}
