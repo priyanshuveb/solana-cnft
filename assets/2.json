@@ -1,0 +1,24 @@
+{
+    "name": "Supermodel #2",
+    "symbol": "SUPER",
+    "description": "Bella Hadid",
+    "image": "https://raw.githubusercontent.com/priyanshuveb/solana-cnft/main/assets/2.jpg",
+    "properties": {
+        "files": [
+            {
+                "type": "image/jpg",
+                "uri": "https://raw.githubusercontent.com/priyanshuveb/solana-cnft/main/assets/2.jpg"
+            }
+        ]
+    },
+    "attributes": [
+        {
+            "trait_type": "Jawline",
+            "value": "10"
+        },
+        {
+            "trait_type": "Tall",
+            "value": "8"
+        }
+    ]
+}
