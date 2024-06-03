@@ -1,0 +1,28 @@
+{
+    "name": "Supermodel #3",
+    "symbol": "SUPER",
+    "description": "Cara Delevingne",
+    "image": "https://raw.githubusercontent.com/priyanshuveb/solana-cnft/main/assets/3.jpg",
+    "properties": {
+        "files": [
+            {
+                "type": "image/jpg",
+                "uri": "https://raw.githubusercontent.com/priyanshuveb/solana-cnft/main/assets/3.jpg"
+            }
+        ]
+    },
+    "attributes": [
+        {
+            "trait_type": "Jawline",
+            "value": "10"
+        },
+        {
+            "trait_type": "Tall",
+            "value": "9"
+        },
+        {
+            "trait_type": "HairColor",
+            "value": "Blonde"
+        }
+    ]
+}
