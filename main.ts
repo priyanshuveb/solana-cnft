@@ -1,6 +1,6 @@
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
-import { mplBubblegum, createTree, mintToCollectionV1, findLeafAssetIdPda, mintV1, getAssetWithProof, verifyCollection, setAndVerifyCollection } from '@metaplex-foundation/mpl-bubblegum'
-import { publicKey, generateSigner, keypairIdentity, createSignerFromKeypair, percentAmount, none } from '@metaplex-foundation/umi'
+import { mplBubblegum, createTree, mintToCollectionV1, findLeafAssetIdPda, mintV1, getAssetWithProof, verifyCollection, setAndVerifyCollection, UpdateArgsArgs, updateMetadata, TokenStandard } from '@metaplex-foundation/mpl-bubblegum'
+import { publicKey, generateSigner, keypairIdentity, createSignerFromKeypair, percentAmount, none, some } from '@metaplex-foundation/umi'
 import {
     fetchMerkleTree,
     fetchTreeConfigFromSeeds,
@@ -130,18 +130,19 @@ async function getAssetId(leafIndex: number) {
         merkleTree,
         leafIndex,
     })
-    console.log({assetId});
+    console.log({ assetId });
     return assetId
 
 
 }
 
 async function fetchCnftByAssetId() {
-    const leafIndex = 2
+    const leafIndex = 1
     const assetId = await getAssetId(leafIndex)
     const rpcAsset = await umi.rpc.getAsset(assetId)
-    //console.log({rpcAsset});
-    console.log(rpcAsset.content.metadata);
+    console.log(rpcAsset.creators);
+    console.log({rpcAsset});
+   // return rpcAsset.content.metadata
 
 }
 
@@ -171,10 +172,10 @@ async function setCollectionToMerkleTree() {
 
     const assetWithProof = await getAssetWithProof(umi, assetId)
     await setAndVerifyCollection(umi, {
-      ...assetWithProof,
-      treeCreatorOrDelegate: keypairSigner,
-      collectionMint,
-      collectionAuthority: keypairSigner,
+        ...assetWithProof,
+        treeCreatorOrDelegate: keypairSigner,
+        collectionMint,
+        collectionAuthority: keypairSigner,
     }).sendAndConfirm(umi)
 }
 async function verifyAsset() {
@@ -182,14 +183,41 @@ async function verifyAsset() {
     const leafIndex = 2
     const assetId = publicKey('Giv5bUZhgyma4x6fsaXHMME4FSzZtSYTaz7E93deBtWC')
     const assetWithProof = await getAssetWithProof(umi, assetId)
-   const { signature } = await verifyCollection(umi, {
+    const { signature } = await verifyCollection(umi, {
         ...assetWithProof,
         collectionMint,
         collectionAuthority: keypairSigner,
     }).sendAndConfirm(umi)
 
     const txid = bs58.encode(signature)
-    console.log({ txid })    
+    console.log({ txid })
+}
+
+async function updateCnft() {
+
+    const collectionMint = publicKey('3ZPzxJCB1zd3Rq5VRdjy7EMHiwzcCUfuaXJ33TTzEfWn')
+    const leafIndex = 1
+    const assetId = await getAssetId(leafIndex)
+    // Use the helper to fetch the proof.
+    const assetWithProof = await getAssetWithProof(umi, assetId)
+    // console.log({assetWithProof});
+
+    // Then we can use it to update metadata for the NFT.
+    const updateArgs: UpdateArgsArgs = {
+        //name: some('New name'),
+        uri: some('https://raw.githubusercontent.com/priyanshuveb/solana-cnft/main/assets/2.json'),
+    }
+    const {signature} = await updateMetadata(umi, {
+        ...assetWithProof,
+        leafOwner: assetWithProof.leafOwner,
+        updateArgs,
+        authority: umi.identity,
+        collectionMint: collectionMint,
+        currentMetadata: assetWithProof.metadata
+    }).sendAndConfirm(umi)
+
+    const txid = bs58.encode(signature)
+    console.log({ txid })
 }
 
 
@@ -203,5 +231,5 @@ async function verifyAsset() {
 //fetchCnftByOwner()
 //fetchCnftByCollection()
 //setCollectionToMerkleTree()
-verifyAsset()
-
+//verifyAsset()
+updateCnft()
